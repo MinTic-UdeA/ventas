@@ -4,6 +4,7 @@ Proyecto en el programa del MinTIC en asociación con la universidad de Antioqui
 
 **Skills:**
 
+
 - Metodología Scrum
 - HTML5 y CSS3
 - Javascript
