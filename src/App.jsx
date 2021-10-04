@@ -31,21 +31,21 @@ function App() {
                   <Ventas />
                 </Route>
                 <Route path='/admin'>
-                  <Admin />
+                  <Index />
               </Route>
               </Switch>
             </PrivateLayout>
           </Route>
-          <Route path={['/Login', '/Registro']}>
+          <Route path={['/auth/', '/auth/Login', '/auth/Registro']}>
             <AuthLayout>
               <Switch>
-                <Route path='/Login'>
+                <Route path='/auth/Login'>
                   <Login />
                 </Route>
-                <Route path='/Registro'>
+                <Route path='/auth/Registro'>
                   <Registro />
                 </Route>
-              </Switch>
+                </Switch>
             </AuthLayout>
           </Route>
           <Route path={['/']}>
