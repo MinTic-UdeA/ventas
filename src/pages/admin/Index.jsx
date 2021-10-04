@@ -1,11 +1,12 @@
 import React from 'react'
 
-const Admin = () => {
-  return (
-    <div>
-      Administration
-    </div>
-  )
+const Index = () => {
+    return (
+            
+        <div className='flex h-full w-full bg-gray-150'>
+        Contenido
+        </div>
+    )
 }
 
-export default Admin
+export default Index
