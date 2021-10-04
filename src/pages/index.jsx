@@ -5,7 +5,7 @@ const Index = () => {
   //const { darkMode } = useDarkMode();
   return (
     <div className='flex flex-col h-full bg-gray-50 text-center justify-center'>
-      Contenido Landing Gestion de Ventas
+      Contenido Gestion de Ventas
     </div>
   );
 };
