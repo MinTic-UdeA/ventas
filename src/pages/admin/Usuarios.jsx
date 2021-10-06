@@ -71,7 +71,7 @@ const FormularioCreacionUsuarios = () => {
 
 const Usuarios = () => {
   const [mostrarTabla, setMostrarTabla] = useState(true);
-  const [Usuarios, setUsuarios] = useState([]);
+  //const [Usuarios, setUsuarios] = useState([]);
   const [textoBoton, setTextoBoton] = useState('Crear Nuevo Usuario');
 
   useEffect(() => {

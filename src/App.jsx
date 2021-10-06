@@ -6,12 +6,12 @@ import PrivateLayout from 'layouts/PrivateLayout';
 import AuthLayout from 'layouts/AuthLayout';
 import PublicLayout from 'layouts/PublicLayout';
 import Index from 'pages/Index';
-import Index from 'pages/admin/Index';
 import Productos from 'pages/admin/Productos';
 import Ventas from 'pages/admin/Ventas'
 import Usuarios from 'pages/admin/Usuarios';
 import Login from 'pages/auth/Login';
 import Registro from 'pages/auth/Registro';
+import Dashboard from 'pages/admin/Dashboard'
 
 function App() {
   return (
@@ -31,7 +31,7 @@ function App() {
                   <Ventas />
                 </Route>
                 <Route path='/admin'>
-                  <Index />
+                  <Dashboard />
               </Route>
               </Switch>
             </PrivateLayout>

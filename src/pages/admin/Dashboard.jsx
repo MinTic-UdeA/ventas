@@ -1,12 +1,12 @@
 import React from 'react'
 
-const Index = () => {
+const Dashboard = () => {
     return (
             
         <div className='flex h-full w-full bg-gray-150'>
-        Contenido
+        Contenido Dashboard
         </div>
     )
 }
 
-export default Index
+export default Dashboard
