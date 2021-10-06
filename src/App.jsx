@@ -6,7 +6,7 @@ import PrivateLayout from 'layouts/PrivateLayout';
 import AuthLayout from 'layouts/AuthLayout';
 import PublicLayout from 'layouts/PublicLayout';
 import Index from 'pages/Index';
-import Admin from 'pages/admin/Index';
+import Index from 'pages/admin/Index';
 import Productos from 'pages/admin/Productos';
 import Ventas from 'pages/admin/Ventas'
 import Usuarios from 'pages/admin/Usuarios';
