@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import Logo from 'media/logoAnt.ico';
 import Ruta from 'components/Ruta';
 //import TriggerDarkMode from './TriggerDarkMode';
