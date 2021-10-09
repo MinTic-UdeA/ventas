@@ -82,7 +82,7 @@ const TablaVentas = ({ listaVentas }) => {
   return (
     <div className='flex flex-col items-center justify-center'>
       <h2 className='text-2xl font-extrabold text-gray-800'>Todos las Ventas</h2>
-      <table>
+      <table className='table'>
         <thead>
           <tr>
             <th>Id Venta</th>
