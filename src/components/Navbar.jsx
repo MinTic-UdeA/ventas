@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Logo from 'media/logo.ico';
+import Ruta from 'components/Ruta';
 
 
 const Navbar = () => {
