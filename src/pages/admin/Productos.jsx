@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { nanoid } from 'nanoid';
 
 
 const productosBackend = [
@@ -79,31 +80,68 @@ const Productos = () => {
   );
 };
 
+const FilaProducto = ({valueProducto}) => {
+  const [edit, setEdit] = useState(false)
+  return(
+    <tr>
+      {
+        edit? 
+        (
+          <>
+            <td><input type="text" name="nameProd" id="nameProd" defaultValue={valueProducto.nombre}/></td>
+            <td><input type="text" name="typeProd" id="typeProd" defaultValue={valueProducto.tipo}/></td>
+            <td><input type="text" name="measureProd" id="measureProd" defaultValue={valueProducto.medida}/></td>
+            <td><input type="text" name="qtyProd" id="qtyProd" defaultValue={valueProducto.cantidad}/></td>
+          </>
+        ):(
+          <>
+            <td>{valueProducto.nombre}</td>
+            <td>{valueProducto.tipo}</td>
+            <td>{valueProducto.medida}</td>
+            <td>{valueProducto.cantidad}</td>
+          </>
+        )
+      }
+      <td>
+      <div className='flex w-full justify-around'>
+        {edit ? 
+          (
+            <div className='flex w-full justify-around'>
+              <i onClick={() => setEdit(!edit)}  className='fas fa-check text-green-700 hover:text-green-500'></i>
+              <i className='fas fa-window-close text-red-700 hover:text-red-500'></i>
+            </div>
+          ):(
+            <i onClick={() => setEdit(!edit)} class='fas fa-pencil-alt text-yellow-700 hover:text-yellow-500'></i>
+          )
+        }
+        <i className='fas fa-trash text-red-700 hover:text-red-500'></i>
+      </div>
+    </td>
+  </tr>
+  );
+};
+
 const TablaProductos = ({ listaProductos }) => {
   useEffect(() => {
     console.log('este es el listado de Productos en el componente de tabla', listaProductos);
   }, [listaProductos]);
   return (
-    <div className='flex flex-col items-center justify-center'>
+    <div className='flex flex-col items-center justify-center w-full'>
       <h2 className='text-2xl font-extrabold text-gray-800'>Todos los Productos</h2>
-      <table>
-        <thead>
+      <table className='table-producto'>
+        <thead className='thead-producto'>
           <tr>
             <th>Nombre del Producto</th>
             <th>Tipo de Producto</th>
             <th>Medida del Producto</th>
             <th>Cantidad del Producto</th>
+            <th>Acciones</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className='tbody-producto'>
           {listaProductos.map((producto) => {
             return (
-              <tr>
-                <td>{producto.nombre}</td>
-                <td>{producto.tipo}</td>
-                <td>{producto.medida}</td>
-                <td>{producto.cantidad}</td>
-              </tr>
+              <FilaProducto key={nanoid()} valueProducto={producto}></FilaProducto>
             );
           })}
         </tbody>
