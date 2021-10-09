@@ -102,3 +102,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+#Font Awesome Library
+fontawesome-free-5.15.4-web/
