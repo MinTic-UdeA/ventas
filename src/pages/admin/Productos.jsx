@@ -3,7 +3,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { nanoid } from 'nanoid';
 
-
 const productosBackend = [
   {
     nombre: 'mozarela',
