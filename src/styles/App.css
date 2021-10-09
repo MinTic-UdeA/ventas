@@ -1,9 +1,29 @@
 /* ./src/index.css */
 @tailwind base;
 @tailwind components;
-
-.boton {
-  @apply bg-green-500 text-green-200 px-4 py-2 rounded-md hover:text-gray-50 hover:bg-green-400 font-bold;
-}
-
 @tailwind utilities;
+
+
+.table{
+    width: 100%;
+    margin: 12px;
+}
+.table td, 
+.table th {
+    padding: 8px;
+    border: 1px solid #ddd;
+ }
+ .table th{
+     background-color: #04aa46;
+     color: white;
+     padding-top: 12px;
+     padding-bottom: 12px;
+     text-align: left;
+ }
+ .table tr:nth-child(event){
+background-color: #f2f2f2;
+ }
+ .table tr:hover{
+     background-color: #ddd;
+     cursor: pointer;
+ }

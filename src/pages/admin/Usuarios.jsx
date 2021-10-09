@@ -7,7 +7,7 @@ const TablaUsuarios = ({ listaUsuarios }) => {
   return (
     <div className='flex flex-col items-center justify-center'>
       <h2 className='text-2xl font-extrabold text-gray-800'>Todos los Usuarios</h2>
-      <table className='bg red'>
+      <table className='bg red table'>
         <thead>
           <tr>
             <th>Id de Usuario</th>

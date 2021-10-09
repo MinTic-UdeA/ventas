@@ -1,60 +1,46 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
+import axios from 'axios';
+import { nanoid } from 'nanoid';
+import { Dialog, Tooltip } from '@material-ui/core';
+import { obtenerProductos } from 'utils/api';
 import 'react-toastify/dist/ReactToastify.css';
-
-
-const productosBackend = [
-  {
-    nombre: 'mozarela',
-    tipo: 'tajado',
-    medida: 'libra',
-    cantidad: 3
-  },
-  {
-    nombre: 'pera',
-    tipo: 'entero',
-    medida: 'kilo',
-    cantidad: 2
-  },
-  {
-    nombre: 'doblecrema',
-    tipo: 'al vacío',
-    medida: 'bloque',
-    cantidad: 1
-  },
-  {
-    nombre: 'campesino',
-    tipo: 'natural',
-    medida: 'media libra',
-    cantidad: 3
-  },
- ];
 
 const Productos = () => {
   const [mostrarTabla, setMostrarTabla] = useState(true);
-  const [Productos, setProductos] = useState([]);
-  const [textoBoton, setTextoBoton] = useState('Crear Nuevo Productos');
+  const [productos, setProductos] = useState([]);
+  const [textoBoton, setTextoBoton] = useState('Crear Nuevo producto');
   const [colorBoton, setColorBoton] = useState('indigo');
+  const [ejecutarConsulta, setEjecutarConsulta] = useState(true);
 
   useEffect(() => {
-    //obtener lista de Productoss desde el backend
-    setProductos(productosBackend);
-  }, []);
+    console.log('consulta', ejecutarConsulta);
+    if (ejecutarConsulta) {
+      obtenerProductos(setProductos, setEjecutarConsulta);
+    }
+  }, [ejecutarConsulta]);
+
+  useEffect(() => {
+    //obtener lista de productos desde el backend
+    if (mostrarTabla) {
+      setEjecutarConsulta(true);
+    }
+  }, [mostrarTabla]);
 
   useEffect(() => {
     if (mostrarTabla) {
-      setTextoBoton('Crear Nuevo Producto');
+      setTextoBoton('Crear Nuevo producto');
       setColorBoton('indigo');
     } else {
-      setTextoBoton('Mostrar Todos los Productos');
+      setTextoBoton('Mostrar Todos los productos');
       setColorBoton('green');
     }
   }, [mostrarTabla]);
   return (
     <div className='flex h-full w-full flex-col items-center justify-start p-8'>
-      <div className='flex flex-col'>
+      <div className='flex flex-col w-full'>
         <h2 className='text-3xl font-extrabold text-gray-900'>
-          Página de administración de Productos
+          Página de administración de productos
         </h2>
         <button
           onClick={() => {
@@ -66,11 +52,11 @@ const Productos = () => {
         </button>
       </div>
       {mostrarTabla ? (
-        <TablaProductos listaProductos={Productos} />
+        <TablaProductos listaProductos={productos} setEjecutarConsulta={setEjecutarConsulta} />
       ) : (
         <FormularioCreacionProductos
           setMostrarTabla={setMostrarTabla}
-          listaProductos={Productos}
+          listaProductos={productos}
           setProductos={setProductos}
         />
       )}
@@ -79,110 +65,297 @@ const Productos = () => {
   );
 };
 
-const TablaProductos = ({ listaProductos }) => {
+const TablaProductos = ({ listaProductos, setEjecutarConsulta }) => {
+  const [busqueda, setBusqueda] = useState('');
+  const [productosFiltrados, setProductosFiltrados] = useState(listaProductos);
+
   useEffect(() => {
-    console.log('este es el listado de Productos en el componente de tabla', listaProductos);
-  }, [listaProductos]);
+    setProductosFiltrados(
+      listaProductos.filter((elemento) => {
+        return JSON.stringify(elemento).toLowerCase().includes(busqueda.toLowerCase());
+      })
+    );
+  }, [busqueda, listaProductos]);
+
   return (
-    <div className='flex flex-col items-center justify-center'>
-      <h2 className='text-2xl font-extrabold text-gray-800'>Todos los Productos</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Nombre del Producto</th>
-            <th>Tipo de Producto</th>
-            <th>Medida del Producto</th>
-            <th>Cantidad del Producto</th>
-          </tr>
-        </thead>
-        <tbody>
-          {listaProductos.map((producto) => {
-            return (
-              <tr>
-                <td>{producto.nombre}</td>
-                <td>{producto.tipo}</td>
-                <td>{producto.medida}</td>
-                <td>{producto.cantidad}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+    <div className='flex flex-col items-center justify-center w-full'>
+      <input
+        value={busqueda}
+        onChange={(e) => setBusqueda(e.target.value)}
+        placeholder='Buscar'
+        className='border-2 border-gray-700 px-3 py-1 self-start rounded-md focus:outline-none focus:border-indigo-500'
+      />
+      <h2 className='text-2xl font-extrabold text-gray-800'>Todos los productos</h2>
+      <div className='hidden md:flex w-full'>
+        <table className='table'>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Nombre del producto</th>
+              <th>Marca del producto</th>
+              <th>Modelo del producto</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {productosFiltrados.map((Producto) => {
+              return (
+                <FilaProducto
+                  key={nanoid()}
+                  Producto={Producto}
+                  setEjecutarConsulta={setEjecutarConsulta}
+                />
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      <div className='flex flex-col w-full m-2 md:hidden'>
+        {productosFiltrados.map((el) => {
+          return (
+            <div className='bg-gray-400 m-2 shadow-xl flex flex-col p-2 rounded-xl'>
+              <span>{el.name}</span>
+              <span>{el.brand}</span>
+              <span>{el.model}</span>
+            </div>
+          );
+        })}
+      </div>
     </div>
+  );
+};
+
+const FilaProducto = ({ producto, setEjecutarConsulta }) => {
+  const [edit, setEdit] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [infoNuevoProducto, setInfoNuevoProducto] = useState({
+    _id: producto._id,
+    name: producto.name,
+    brand: producto.brand,
+    model: producto.model,
+  });
+
+  const actualizarProducto = async () => {
+    //enviar la info al backend
+    const options = {
+      method: 'PATCH',
+      url: `http://localhost:5000/Productos/${producto._id}/`,
+      headers: { 'Content-Type': 'application/json' },
+      data: { ...infoNuevoProducto },
+    };
+
+    await axios
+      .request(options)
+      .then(function (response) {
+        console.log(response.data);
+        toast.success('producto modificado con éxito');
+        setEdit(false);
+        setEjecutarConsulta(true);
+      })
+      .catch(function (error) {
+        toast.error('Error modificando el producto');
+        console.error(error);
+      });
+  };
+
+  const eliminarProducto = async () => {
+    const options = {
+      method: 'DELETE',
+      url: 'http://localhost:5000/Productos/eliminar/',
+      headers: { 'Content-Type': 'application/json' },
+      data: { id: producto._id },
+    };
+
+    await axios
+      .request(options)
+      .then(function (response) {
+        console.log(response.data);
+        toast.success('productos eliminado con éxito');
+        setEjecutarConsulta(true);
+      })
+      .catch(function (error) {
+        console.error(error);
+        toast.error('Error eliminando el producto');
+      });
+    setOpenDialog(false);
+  };
+
+  return (
+    <tr>
+      {edit ? (
+        <>
+          <td>{infoNuevoProducto._id}</td>
+          <td>
+            <input
+              className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
+              type='text'
+              value={infoNuevoProducto.name}
+              onChange={(e) => setInfoNuevoProducto({ ...infoNuevoProducto, name: e.target.value })}
+            />
+          </td>
+          <td>
+            <input
+              className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
+              type='text'
+              value={infoNuevoProducto.brand}
+              onChange={(e) =>
+                setInfoNuevoProducto({ ...infoNuevoProducto, brand: e.target.value })
+              }
+            />
+          </td>
+          <td>
+            <input
+              className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
+              type='text'
+              value={infoNuevoProducto.model}
+              onChange={(e) =>
+                setInfoNuevoProducto({ ...infoNuevoProducto, model: e.target.value })
+              }
+            />
+          </td>
+        </>
+      ) : (
+        <>
+          <td>{producto._id.slice(20)}</td>
+          <td>{producto.name}</td>
+          <td>{producto.brand}</td>
+          <td>{producto.model}</td>
+        </>
+      )}
+      <td>
+        <div className='flex w-full justify-around'>
+          {edit ? (
+            <>
+              <Tooltip title='Confirmar Edición' arrow>
+                <i
+                  onClick={() => actualizarProducto()}
+                  className='fas fa-check text-green-700 hover:text-green-500'
+                />
+              </Tooltip>
+              <Tooltip title='Cancelar edición' arrow>
+                <i
+                  onClick={() => setEdit(!edit)}
+                  className='fas fa-ban text-yellow-700 hover:text-yellow-500'
+                />
+              </Tooltip>
+            </>
+          ) : (
+            <>
+              <Tooltip title='Editar producto' arrow>
+                <i
+                  onClick={() => setEdit(!edit)}
+                  className='fas fa-pencil-alt text-yellow-700 hover:text-yellow-500'
+                />
+              </Tooltip>
+              <Tooltip title='Eliminar producto' arrow>
+                <i
+                  onClick={() => setOpenDialog(true)}
+                  className='fas fa-trash text-red-700 hover:text-red-500'
+                />
+              </Tooltip>
+            </>
+          )}
+        </div>
+        <Dialog open={openDialog}>
+          <div className='p-8 flex flex-col'>
+            <h1 className='text-gray-900 text-2xl font-bold'>
+              ¿Está seguro de querer eliminar el producto?
+            </h1>
+            <div className='flex w-full items-center justify-center my-4'>
+              <button
+                onClick={() => eliminarProducto()}
+                className='mx-2 px-4 py-2 bg-green-500 text-white hover:bg-green-700 rounded-md shadow-md'
+              >
+                Sí
+              </button>
+              <button
+                onClick={() => setOpenDialog(false)}
+                className='mx-2 px-4 py-2 bg-red-500 text-white hover:bg-red-700 rounded-md shadow-md'
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </Dialog>
+      </td>
+    </tr>
   );
 };
 
 const FormularioCreacionProductos = ({ setMostrarTabla, listaProductos, setProductos }) => {
   const form = useRef(null);
 
-  const submitForm = (e) => {
+  const submitForm = async (e) => {
     e.preventDefault();
     const fd = new FormData(form.current);
-    
+
     const nuevoProducto = {};
     fd.forEach((value, key) => {
       nuevoProducto[key] = value;
     });
 
+    const options = {
+      method: 'POST',
+      url: 'http://localhost:5000/Productos/nuevo/',
+      headers: { 'Content-Type': 'application/json' },
+      data: { name: nuevoProducto.name, brand: nuevoProducto.brand, model: nuevoProducto.model },
+    };
+
+    await axios
+      .request(options)
+      .then(function (response) {
+        console.log(response.data);
+        toast.success('producto agregado con éxito');
+      })
+      .catch(function (error) {
+        console.error(error);
+        toast.error('Error creando un producto');
+      });
+
     setMostrarTabla(true);
-    setProductos([...listaProductos, nuevoProducto]);
-    // identificar el caso de éxito y mostrar un toast de éxito
-    toast.success('Producto agregado con éxito');
-    // identificar el caso de error y mostrar un toast de error
-    // toast.error('Error creando un Productos');
   };
 
   return (
     <div className='flex flex-col items-center justify-center'>
-      <h2 className='text-2xl font-extrabold text-gray-800'>Crear nuevo Producto</h2>
+      <h2 className='text-2xl font-extrabold text-gray-800'>Crear nuevo producto</h2>
       <form ref={form} onSubmit={submitForm} className='flex flex-col'>
         <label className='flex flex-col' htmlFor='nombre'>
-          Nombre del Producto
+          Nombre del producto
           <input
-            name='nombre'
+            name='name'
             className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
             type='text'
-            placeholder='mozarela'
+            placeholder='Corolla'
             required
           />
         </label>
-        <label className='flex flex-col' htmlFor='tipo'>
-          Tipo de Producto
+        <label className='flex flex-col' htmlFor='marca'>
+          Marca del producto
           <select
             className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
-            name='tipo'
+            name='brand'
             required
             defaultValue={0}
           >
             <option disabled value={0}>
               Seleccione una opción
             </option>
-            <option>Al vacío</option>
-            <option>Entero</option>
-            <option>Tajado</option>
-            <option>Natural</option>
-            <option>Bajo en grasa</option>
-            </select>
+            <option>Renault</option>
+            <option>Toyota</option>
+            <option>Ford</option>
+            <option>Mazda</option>
+            <option>Chevrolet</option>
+          </select>
         </label>
-        <label className='flex flex-col' htmlFor='medida'>
-          Medida del Producto
+        <label className='flex flex-col' htmlFor='modelo'>
+          Modelo del producto
           <input
-            name='medida'
-            className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
-            type='text'
-            placeholder='libra'
-            required
-          />
-        </label>
-        <label className='flex flex-col' htmlFor='cantidad'>
-        Cantidad del Producto
-          <input
-            name='cantidad'
+            name='model'
             className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
             type='number'
-            min={1}
-            max={50}
-            placeholder='5'
+            min={1992}
+            max={2022}
+            placeholder='2014'
             required
           />
         </label>
@@ -191,7 +364,7 @@ const FormularioCreacionProductos = ({ setMostrarTabla, listaProductos, setProdu
           type='submit'
           className='col-span-2 bg-green-400 p-2 rounded-full shadow-md hover:bg-green-600 text-white'
         >
-          Guardar producto
+          Guardar Producto
         </button>
       </form>
     </div>
