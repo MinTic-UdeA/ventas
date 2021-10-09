@@ -2,7 +2,8 @@ import React from 'react'
 import ImagenLogo from 'components/ImagenLogo';
 import { Link } from 'react-router-dom';
 import Ruta from 'components/Ruta';
-//import 'font-awesome/css/font-awesome.min.css';
+//import { FontAwesomeIcon } from '@font-awesome/css/font-awesome.min.css';
+//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Sidebar = () => {
     return (
@@ -11,10 +12,10 @@ const Sidebar = () => {
                     <ImagenLogo/>
                 </Link>
                 <div className='my-4'>
-                    <Ruta icono="fas fa-user" ruta="/admin/Perfil" nombre="Perfil"/>
-                    <Ruta icono="fas fa-product-hunt" ruta="/admin/Productos" nombre="Productos"/>
-                    <Ruta ruta='/admin/Ventas' icono='fas fa-cash-register' nombre='Ventas'/>
-                    <Ruta ruta='/admin/Usuarios' icono='fas fa-users' nombre='Usuarios'/>
+                    <Ruta nombre="Perfil" icono="fa fa-user" ruta="/admin/Perfil" />
+                    <Ruta nombre="Productos" icono="fa fa-product-hunt" ruta="/admin/Productos" />
+                    <Ruta nombre='Ventas' icono='fa fa-cash-register' ruta='/admin/Ventas' />
+                    <Ruta nombre='Usuarios' icono='fa fa-users' ruta='/admin/Usuarios' />
                 </div>
                 <button>Cerrar Sesión</button>
         </nav>

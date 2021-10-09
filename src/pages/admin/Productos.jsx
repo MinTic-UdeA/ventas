@@ -32,7 +32,7 @@ const productosBackend = [
 
 const Productos = () => {
   const [mostrarTabla, setMostrarTabla] = useState(true);
-  const [Productos, setProductos] = useState([]);
+  const [productos, setProductos] = useState([]);
   const [textoBoton, setTextoBoton] = useState('Crear Nuevo Productos');
   const [colorBoton, setColorBoton] = useState('indigo');
 
@@ -66,11 +66,11 @@ const Productos = () => {
         </button>
       </div>
       {mostrarTabla ? (
-        <TablaProductos listaProductos={Productos} />
+        <TablaProductos listaProductos={productos} />
       ) : (
         <FormularioCreacionProductos
           setMostrarTabla={setMostrarTabla}
-          listaProductos={Productos}
+          listaProductos={productos}
           setProductos={setProductos}
         />
       )}
