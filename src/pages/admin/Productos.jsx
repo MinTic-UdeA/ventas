@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 import { nanoid } from 'nanoid';
+<<<<<<< HEAD
 
 const productosBackend = [
   {
@@ -29,32 +30,47 @@ const productosBackend = [
     cantidad: 3
   },
  ];
+=======
+import { Dialog, Tooltip } from '@material-ui/core';
+import { obtenerProductos } from 'utils/api';
+import 'react-toastify/dist/ReactToastify.css';
+>>>>>>> dev
 
 const Productos = () => {
   const [mostrarTabla, setMostrarTabla] = useState(true);
   const [productos, setProductos] = useState([]);
-  const [textoBoton, setTextoBoton] = useState('Crear Nuevo Productos');
+  const [textoBoton, setTextoBoton] = useState('Crear Nuevo producto');
   const [colorBoton, setColorBoton] = useState('indigo');
+  const [ejecutarConsulta, setEjecutarConsulta] = useState(true);
 
   useEffect(() => {
-    //obtener lista de Productoss desde el backend
-    setProductos(productosBackend);
-  }, []);
+    console.log('consulta', ejecutarConsulta);
+    if (ejecutarConsulta) {
+      obtenerProductos(setProductos, setEjecutarConsulta);
+    }
+  }, [ejecutarConsulta]);
+
+  useEffect(() => {
+    //obtener lista de productos desde el backend
+    if (mostrarTabla) {
+      setEjecutarConsulta(true);
+    }
+  }, [mostrarTabla]);
 
   useEffect(() => {
     if (mostrarTabla) {
-      setTextoBoton('Crear Nuevo Producto');
+      setTextoBoton('Crear Nuevo producto');
       setColorBoton('indigo');
     } else {
-      setTextoBoton('Mostrar Todos los Productos');
+      setTextoBoton('Mostrar Todos los productos');
       setColorBoton('green');
     }
   }, [mostrarTabla]);
   return (
     <div className='flex h-full w-full flex-col items-center justify-start p-8'>
-      <div className='flex flex-col'>
+      <div className='flex flex-col w-full'>
         <h2 className='text-3xl font-extrabold text-gray-900'>
-          Página de administración de Productos
+          Página de administración de productos
         </h2>
         <button
           onClick={() => {
@@ -66,7 +82,7 @@ const Productos = () => {
         </button>
       </div>
       {mostrarTabla ? (
-        <TablaProductos listaProductos={productos} />
+        <TablaProductos listaProductos={productos} setEjecutarConsulta={setEjecutarConsulta} />
       ) : (
         <FormularioCreacionProductos
           setMostrarTabla={setMostrarTabla}
@@ -79,52 +95,118 @@ const Productos = () => {
   );
 };
 
-const FilaProducto = ({valueProducto}) => {
-  const [edit, setEdit] = useState(false)
-  return(
-    <tr>
-      {
-        edit? 
-        (
-          <>
-            <td><input type="text" name="nameProd" id="nameProd" defaultValue={valueProducto.nombre}/></td>
-            <td><input type="text" name="typeProd" id="typeProd" defaultValue={valueProducto.tipo}/></td>
-            <td><input type="text" name="measureProd" id="measureProd" defaultValue={valueProducto.medida}/></td>
-            <td><input type="text" name="qtyProd" id="qtyProd" defaultValue={valueProducto.cantidad}/></td>
-          </>
-        ):(
-          <>
-            <td>{valueProducto.nombre}</td>
-            <td>{valueProducto.tipo}</td>
-            <td>{valueProducto.medida}</td>
-            <td>{valueProducto.cantidad}</td>
-          </>
-        )
-      }
-      <td>
-      <div className='flex w-full justify-around'>
-        {edit ? 
-          (
-            <div className='flex w-full justify-around'>
-              <i onClick={() => setEdit(!edit)}  className='fas fa-check text-green-700 hover:text-green-500'></i>
-              <i className='fas fa-window-close text-red-700 hover:text-red-500'></i>
-            </div>
-          ):(
-            <i onClick={() => setEdit(!edit)} class='fas fa-pencil-alt text-yellow-700 hover:text-yellow-500'></i>
-          )
-        }
-        <i className='fas fa-trash text-red-700 hover:text-red-500'></i>
+const TablaProductos = ({ listaProductos, setEjecutarConsulta }) => {
+  const [busqueda, setBusqueda] = useState('');
+  const [productosFiltrados, setProductosFiltrados] = useState(listaProductos);
+
+  useEffect(() => {
+    setProductosFiltrados(
+      listaProductos.filter((elemento) => {
+        return JSON.stringify(elemento).toLowerCase().includes(busqueda.toLowerCase());
+      })
+    );
+  }, [busqueda, listaProductos]);
+
+  return (
+    <div className='flex flex-col items-center justify-center w-full'>
+      <input
+        value={busqueda}
+        onChange={(e) => setBusqueda(e.target.value)}
+        placeholder='Buscar'
+        className='border-2 border-gray-700 px-3 py-1 self-start rounded-md focus:outline-none focus:border-indigo-500'
+      />
+      <h2 className='text-2xl font-extrabold text-gray-800'>Todos los productos</h2>
+      <div className='hidden md:flex w-full'>
+        <table className='table-producto'>
+          <thead className='thead-producto'>
+            <tr>
+              <th>Id Producto</th>
+              <th>Nombre</th>
+              <th>Precio</th>
+              <th>Cantidad</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody className='tbody-producto'>
+            {productosFiltrados.map((Producto) => {
+              return (
+                <FilaProducto key={nanoid()} valuesProducto={Producto} setEjecutarConsulta={setEjecutarConsulta} />
+              );
+            })}
+          </tbody>
+        </table>
       </div>
-    </td>
-  </tr>
+      <div className='flex flex-col w-full m-2 md:hidden'>
+        {productosFiltrados.map((el) => {
+          return (
+            <div className='bg-gray-400 m-2 shadow-xl flex flex-col p-2 rounded-xl'>
+              <span>{el.nombre}</span>
+              <span>{el.precio}</span>
+              <span>{el.existencia}</span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 };
 
-const TablaProductos = ({ listaProductos }) => {
-  useEffect(() => {
-    console.log('este es el listado de Productos en el componente de tabla', listaProductos);
-  }, [listaProductos]);
+const FilaProducto = ({ valuesProducto, setEjecutarConsulta }) => {
+  const [edit, setEdit] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [infoNuevoProducto, setInfoNuevoProducto] = useState({
+    idProducto: valuesProducto.idProducto,
+    nombre: valuesProducto.nombre,
+    precio: valuesProducto.precio,
+    existencia: valuesProducto.existencia,
+  });
+
+  const actualizarProducto = async () => {
+    //enviar la info al backend
+    const options = {
+      method: 'PUT',
+      url: `http://localhost:8000/Productos/${valuesProducto.idProducto}`,
+      headers: { 'Content-Type': 'application/json' },
+      data: { ...infoNuevoProducto },
+    };
+
+    await axios
+      .request(options)
+      .then(function (response) {
+        console.log(response.data);
+        toast.success('producto modificado con éxito');
+        setEdit(false);
+        setEjecutarConsulta(true);
+      })
+      .catch(function (error) {
+        toast.error('Error modificando el producto');
+        console.error(error);
+      });
+  };
+
+  const eliminarProducto = async () => {
+    const options = {
+      method: 'DELETE',
+      url: `http://localhost:8000/Productos/${valuesProducto.idProducto}`,
+      headers: { 'Content-Type': 'application/json' }
+    };
+
+    await axios
+      .request(options)
+      .then(function (response) {
+        console.log(response.data);
+        toast.success('productos eliminado con éxito');
+        setEjecutarConsulta(true);
+      })
+      .catch(function (error) {
+        console.error(error);
+        toast.error('Error eliminando el producto');
+      });
+    setOpenDialog(false);
+  };
+
   return (
+<<<<<<< HEAD
     <div className='flex flex-col items-center justify-center w-full'>
       <h2 className='text-2xl font-extrabold text-gray-800'>Todos los Productos</h2> 
       <table className='table-producto'>
@@ -146,80 +228,188 @@ const TablaProductos = ({ listaProductos }) => {
         </tbody>
       </table>
     </div>
+=======
+    <tr>
+      {edit ? (
+        <>
+          <td>{infoNuevoProducto.idProducto}</td>
+          <td>
+            <input
+              className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
+              type='text'
+              value={infoNuevoProducto.nombre}
+              onChange={(e) => setInfoNuevoProducto({ ...infoNuevoProducto, nombre: e.target.value })}
+            />
+          </td>
+          <td>
+            <input
+              className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
+              type='text'
+              value={infoNuevoProducto.precio}
+              onChange={(e) =>
+                setInfoNuevoProducto({ ...infoNuevoProducto, precio: e.target.value })
+              }
+            />
+          </td>
+          <td>
+            <input
+              className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
+              type='text'
+              value={infoNuevoProducto.existencia}
+              onChange={(e) =>
+                setInfoNuevoProducto({ ...infoNuevoProducto, existencia: e.target.value })
+              }
+            />
+          </td>
+        </>
+      ) : (
+        <>
+          <td>{valuesProducto.idProducto}</td>
+          <td>{valuesProducto.nombre}</td>
+          <td>{valuesProducto.precio}</td>
+          <td>{valuesProducto.existencia}</td>
+        </>
+      )}
+      <td>
+        <div className='flex w-full justify-around'>
+          {edit ? (
+            <>
+              <Tooltip title='Confirmar Edición' arrow>
+                <i
+                  onClick={() => actualizarProducto()}
+                  className='fas fa-check text-green-700 hover:text-green-500'
+                />
+              </Tooltip>
+              <Tooltip title='Cancelar edición' arrow>
+                <i
+                  onClick={() => setEdit(!edit)}
+                  className='fas fa-ban text-yellow-700 hover:text-yellow-500'
+                />
+              </Tooltip>
+            </>
+          ) : (
+            <>
+              <Tooltip title='Editar producto' arrow>
+                <i
+                  onClick={() => setEdit(!edit)}
+                  className='fas fa-pencil-alt text-yellow-700 hover:text-yellow-500'
+                />
+              </Tooltip>
+              <Tooltip title='Eliminar producto' arrow>
+                <i
+                  onClick={() => setOpenDialog(true)}
+                  className='fas fa-trash text-red-700 hover:text-red-500'
+                />
+              </Tooltip>
+            </>
+          )}
+        </div>
+        <Dialog open={openDialog}>
+          <div className='p-8 flex flex-col'>
+            <h1 className='text-gray-900 text-2xl font-bold'>
+              ¿Está seguro de querer eliminar el producto?
+            </h1>
+            <div className='flex w-full items-center justify-center my-4'>
+              <button
+                onClick={() => eliminarProducto()}
+                className='mx-2 px-4 py-2 bg-green-500 text-white hover:bg-green-700 rounded-md shadow-md'
+              >
+                Sí
+              </button>
+              <button
+                onClick={() => setOpenDialog(false)}
+                className='mx-2 px-4 py-2 bg-red-500 text-white hover:bg-red-700 rounded-md shadow-md'
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </Dialog>
+      </td>
+    </tr>
+>>>>>>> dev
   );
 };
 
 const FormularioCreacionProductos = ({ setMostrarTabla, listaProductos, setProductos }) => {
   const form = useRef(null);
 
-  const submitForm = (e) => {
+  const submitForm = async (e) => {
     e.preventDefault();
     const fd = new FormData(form.current);
-    
+
     const nuevoProducto = {};
     fd.forEach((value, key) => {
       nuevoProducto[key] = value;
     });
 
+    const options = {
+      method: 'POST',
+      url: 'http://localhost:8000/Productos',
+      headers: { 'Content-Type': 'application/json' },
+      data: { 
+        idProducto: nuevoProducto.idProducto,
+        nombre: nuevoProducto.nombre,
+        precio: nuevoProducto.precio,
+        existencia: nuevoProducto.existencia 
+      },
+    };
+
+    await axios
+      .request(options)
+      .then(function (response) {
+        console.log(response.data);
+        toast.success('producto agregado con éxito');
+      })
+      .catch(function (error) {
+        console.error(error);
+        toast.error('Error creando un producto');
+      });
+
     setMostrarTabla(true);
-    setProductos([...listaProductos, nuevoProducto]);
-    // identificar el caso de éxito y mostrar un toast de éxito
-    toast.success('Producto agregado con éxito');
-    // identificar el caso de error y mostrar un toast de error
-    // toast.error('Error creando un Productos');
   };
 
   return (
     <div className='flex flex-col items-center justify-center'>
-      <h2 className='text-2xl font-extrabold text-gray-800'>Crear nuevo Producto</h2>
+      <h2 className='text-2xl font-extrabold text-gray-800'>Crear nuevo producto</h2>
       <form ref={form} onSubmit={submitForm} className='flex flex-col'>
+      <label className='flex flex-col' htmlFor='idProducto'>
+          ID Producto
+          <input
+            name='idProducto'
+            className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
+            type='number'
+            placeholder='0'
+            required
+          />
+        </label>
         <label className='flex flex-col' htmlFor='nombre'>
-          Nombre del Producto
+          Nombre del producto
           <input
             name='nombre'
             className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
             type='text'
-            placeholder='mozarela'
+            placeholder='Limon'
             required
           />
         </label>
-        <label className='flex flex-col' htmlFor='tipo'>
-          Tipo de Producto
-          <select
-            className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
-            name='tipo'
-            required
-            defaultValue={0}
-          >
-            <option disabled value={0}>
-              Seleccione una opción
-            </option>
-            <option>Al vacío</option>
-            <option>Entero</option>
-            <option>Tajado</option>
-            <option>Natural</option>
-            <option>Bajo en grasa</option>
-            </select>
-        </label>
-        <label className='flex flex-col' htmlFor='medida'>
-          Medida del Producto
+        <label className='flex flex-col' htmlFor='precio'>
+          Precio
           <input
-            name='medida'
+            name='precio'
             className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
             type='text'
-            placeholder='libra'
+            placeholder='$0'
             required
           />
         </label>
-        <label className='flex flex-col' htmlFor='cantidad'>
-        Cantidad del Producto
+        <label className='flex flex-col' htmlFor='existencia'>
+          Cantidad
           <input
-            name='cantidad'
+            name='existencia'
             className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
             type='number'
-            min={1}
-            max={50}
-            placeholder='5'
+            placeholder='0'
             required
           />
         </label>
@@ -228,7 +418,7 @@ const FormularioCreacionProductos = ({ setMostrarTabla, listaProductos, setProdu
           type='submit'
           className='col-span-2 bg-green-400 p-2 rounded-full shadow-md hover:bg-green-600 text-white'
         >
-          Guardar producto
+          Guardar Producto
         </button>
       </form>
     </div>
