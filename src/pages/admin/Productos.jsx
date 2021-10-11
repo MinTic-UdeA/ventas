@@ -2,39 +2,9 @@ import React, { useEffect, useState, useRef } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 import { nanoid } from 'nanoid';
-<<<<<<< HEAD
-
-const productosBackend = [
-  {
-    nombre: 'mozarela',
-    tipo: 'tajado',
-    medida: 'libra',
-    cantidad: 3
-  },
-  {
-    nombre: 'pera',
-    tipo: 'entero',
-    medida: 'kilo',
-    cantidad: 2
-  },
-  {
-    nombre: 'doblecrema',
-    tipo: 'al vacío',
-    medida: 'bloque',
-    cantidad: 1
-  },
-  {
-    nombre: 'campesino',
-    tipo: 'natural',
-    medida: 'media libra',
-    cantidad: 3
-  },
- ];
-=======
 import { Dialog, Tooltip } from '@material-ui/core';
 import { obtenerProductos } from 'utils/api';
 import 'react-toastify/dist/ReactToastify.css';
->>>>>>> dev
 
 const Productos = () => {
   const [mostrarTabla, setMostrarTabla] = useState(true);
@@ -137,12 +107,12 @@ const TablaProductos = ({ listaProductos, setEjecutarConsulta }) => {
         </table>
       </div>
       <div className='flex flex-col w-full m-2 md:hidden'>
-        {productosFiltrados.map((el) => {
+        {productosFiltrados.map((fProducto) => {
           return (
             <div className='bg-gray-400 m-2 shadow-xl flex flex-col p-2 rounded-xl'>
-              <span>{el.nombre}</span>
-              <span>{el.precio}</span>
-              <span>{el.existencia}</span>
+              <span>{fProducto.nombre}</span>
+              <span>{fProducto.precio}</span>
+              <span>{fProducto.existencia}</span>
             </div>
           );
         })}
@@ -206,29 +176,6 @@ const FilaProducto = ({ valuesProducto, setEjecutarConsulta }) => {
   };
 
   return (
-<<<<<<< HEAD
-    <div className='flex flex-col items-center justify-center w-full'>
-      <h2 className='text-2xl font-extrabold text-gray-800'>Todos los Productos</h2> 
-      <table className='table-producto'>
-        <thead className='thead-producto'>
-          <tr>
-            <th>Nombre del Producto</th>
-            <th>Tipo de Producto</th>
-            <th>Medida del Producto</th>
-            <th>Cantidad del Producto</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody className='tbody-producto'>
-          {listaProductos.map((producto) => {
-            return (
-              <FilaProducto key={nanoid()} valueProducto={producto}></FilaProducto>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
-=======
     <tr>
       {edit ? (
         <>
@@ -327,7 +274,6 @@ const FilaProducto = ({ valuesProducto, setEjecutarConsulta }) => {
         </Dialog>
       </td>
     </tr>
->>>>>>> dev
   );
 };
 
