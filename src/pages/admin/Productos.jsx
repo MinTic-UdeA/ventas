@@ -144,7 +144,9 @@ const FilaProducto = ({ valuesProducto, setEjecutarConsulta }) => {
       .request(options)
       .then(function (response) {
         console.log(response.data);
-        toast.success('producto modificado con éxito');
+        if (response.data === "ok"){
+          toast.success('producto modificado con éxito');
+        }
         setEdit(false);
         setEjecutarConsulta(true);
       })
@@ -165,7 +167,9 @@ const FilaProducto = ({ valuesProducto, setEjecutarConsulta }) => {
       .request(options)
       .then(function (response) {
         console.log(response.data);
-        toast.success('productos eliminado con éxito');
+        if (response.data==="ok"){
+          toast.success('productos eliminado con éxito');
+        } 
         setEjecutarConsulta(true);
       })
       .catch(function (error) {
@@ -305,7 +309,9 @@ const FormularioCreacionProductos = ({ setMostrarTabla, listaProductos, setProdu
       .request(options)
       .then(function (response) {
         console.log(response.data);
-        toast.success('producto agregado con éxito');
+        if (response.data==="ok"){
+          toast.success('producto agregado con éxito');
+        }
       })
       .catch(function (error) {
         console.error(error);
@@ -317,7 +323,7 @@ const FormularioCreacionProductos = ({ setMostrarTabla, listaProductos, setProdu
 
   return (
     <div className='flex flex-col items-center justify-center'>
-      <h2 className='text-2xl font-extrabold text-gray-800'>Crear nuevo producto</h2>
+      <h2 className='text-2xl font-extrabold text-gray-800'>Nuevo Producto</h2>
       <form ref={form} onSubmit={submitForm} className='flex flex-col'>
       <label className='flex flex-col' htmlFor='idProducto'>
           ID Producto
