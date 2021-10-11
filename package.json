@@ -4,9 +4,11 @@
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.3.0",
+    "@material-ui/core": "^4.12.3",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "axios": "^0.22.0",
     "nanoid": "^3.1.29",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -43,6 +45,7 @@
     "@iconify/react": "^3.0.1",
     "autoprefixer": "^9",
     "postcss": "^7",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.16"
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.16",
+    "tailwindcss-text-indent": "^1.0.2"
   }
 }
