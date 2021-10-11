@@ -9,8 +9,8 @@ import 'react-toastify/dist/ReactToastify.css';
 const Productos = () => {
   const [mostrarTabla, setMostrarTabla] = useState(true);
   const [productos, setProductos] = useState([]);
-  const [textoBoton, setTextoBoton] = useState('Crear Nuevo producto');
-  const [colorBoton, setColorBoton] = useState('indigo');
+  const [textoBoton, setTextoBoton] = useState('Nuevo Producto');
+  const [colorBoton, setColorBoton] = useState('red');
   const [ejecutarConsulta, setEjecutarConsulta] = useState(true);
 
   useEffect(() => {
@@ -29,10 +29,10 @@ const Productos = () => {
 
   useEffect(() => {
     if (mostrarTabla) {
-      setTextoBoton('Crear Nuevo producto');
-      setColorBoton('indigo');
+      setTextoBoton('Nuevo Producto');
+      setColorBoton('red');
     } else {
-      setTextoBoton('Mostrar Todos los productos');
+      setTextoBoton('Mostrar Productos');
       setColorBoton('green');
     }
   }, [mostrarTabla]);
@@ -40,7 +40,7 @@ const Productos = () => {
     <div className='flex h-full w-full flex-col items-center justify-start p-8'>
       <div className='flex flex-col w-full'>
         <h2 className='text-3xl font-extrabold text-gray-900'>
-          Página de administración de productos
+          Administración de Productos
         </h2>
         <button
           onClick={() => {
@@ -85,7 +85,7 @@ const TablaProductos = ({ listaProductos, setEjecutarConsulta }) => {
         placeholder='Buscar'
         className='border-2 border-gray-700 px-3 py-1 self-start rounded-md focus:outline-none focus:border-indigo-500'
       />
-      <h2 className='text-2xl font-extrabold text-gray-800'>Todos los productos</h2>
+      <h2 className='text-2xl font-extrabold text-gray-800'>Listado de Productos</h2>
       <div className='hidden md:flex w-full'>
         <table className='table-producto'>
           <thead className='thead-producto'>
@@ -254,7 +254,7 @@ const FilaProducto = ({ valuesProducto, setEjecutarConsulta }) => {
         <Dialog open={openDialog}>
           <div className='p-8 flex flex-col'>
             <h1 className='text-gray-900 text-2xl font-bold'>
-              ¿Está seguro de querer eliminar el producto?
+              ¿Está seguro de eliminar el producto?
             </h1>
             <div className='flex w-full items-center justify-center my-4'>
               <button
