@@ -91,9 +91,9 @@ const TablaProductos = ({ listaProductos, setEjecutarConsulta }) => {
           <thead className='thead-producto'>
             <tr>
               <th>Id Producto</th>
-              <th>Nombre</th>
-              <th>Precio</th>
-              <th>Cantidad</th>
+              <th>Descripci&oacute;n</th>
+              <th>Valor Unitario</th>
+              <th>Estado</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -112,7 +112,9 @@ const TablaProductos = ({ listaProductos, setEjecutarConsulta }) => {
             <div className='bg-gray-400 m-2 shadow-xl flex flex-col p-2 rounded-xl'>
               <span>{fProducto.nombre}</span>
               <span>{fProducto.precio}</span>
-              <span>{fProducto.existencia}</span>
+              {fProducto.estado === 1 ? 
+                (<span>Disponible</span>):(<span>No disponible</span>)
+              }
             </div>
           );
         })}
@@ -128,7 +130,7 @@ const FilaProducto = ({ valuesProducto, setEjecutarConsulta }) => {
     idProducto: valuesProducto.idProducto,
     nombre: valuesProducto.nombre,
     precio: valuesProducto.precio,
-    existencia: valuesProducto.existencia,
+    estado: valuesProducto.estado,
   });
 
   const actualizarProducto = async () => {
@@ -206,9 +208,9 @@ const FilaProducto = ({ valuesProducto, setEjecutarConsulta }) => {
             <input
               className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
               type='text'
-              value={infoNuevoProducto.existencia}
+              value={infoNuevoProducto.estado}
               onChange={(e) =>
-                setInfoNuevoProducto({ ...infoNuevoProducto, existencia: e.target.value })
+                setInfoNuevoProducto({ ...infoNuevoProducto, estado: e.target.value })
               }
             />
           </td>
@@ -218,7 +220,10 @@ const FilaProducto = ({ valuesProducto, setEjecutarConsulta }) => {
           <td>{valuesProducto.idProducto}</td>
           <td>{valuesProducto.nombre}</td>
           <td>{valuesProducto.precio}</td>
-          <td>{valuesProducto.existencia}</td>
+          <td>{
+                valuesProducto.estado === 1 ? ("Disponible"):("No disponible")
+              }
+          </td>
         </>
       )}
       <td>
@@ -301,7 +306,7 @@ const FormularioCreacionProductos = ({ setMostrarTabla, listaProductos, setProdu
         idProducto: nuevoProducto.idProducto,
         nombre: nuevoProducto.nombre,
         precio: nuevoProducto.precio,
-        existencia: nuevoProducto.existencia 
+        estado: nuevoProducto.estado 
       },
     };
 
@@ -336,7 +341,7 @@ const FormularioCreacionProductos = ({ setMostrarTabla, listaProductos, setProdu
           />
         </label>
         <label className='flex flex-col' htmlFor='nombre'>
-          Nombre del producto
+          Descripci&oacute;n
           <input
             name='nombre'
             className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
@@ -346,30 +351,32 @@ const FormularioCreacionProductos = ({ setMostrarTabla, listaProductos, setProdu
           />
         </label>
         <label className='flex flex-col' htmlFor='precio'>
-          Precio
+          Valor Unitario
           <input
             name='precio'
             className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
             type='text'
-            placeholder='$0'
+            placeholder='$0.00'
             required
           />
         </label>
-        <label className='flex flex-col' htmlFor='existencia'>
-          Cantidad
-          <input
-            name='existencia'
-            className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
-            type='number'
-            placeholder='0'
-            required
-          />
+        <label className='flex flex-col' htmlFor='estado'>
+          Disponible
+          <div className='flex space-x-6'>
+            <div className='flex flex-row items-center space-x-1.5'>
+              <input type="radio" name="estado" id="disponible" value={1} />
+              <label htmlFor="disponible">Si</label>
+            </div>
+            <div className='flex flex-row items-center space-x-1.5'>
+              <input type="radio" name="estado" id="noDisponible" value={2} />
+              <label htmlFor="noDisponible">No</label>
+            </div>
+          </div>
         </label>
+        <br />
 
-        <button
-          type='submit'
-          className='col-span-2 bg-green-400 p-2 rounded-full shadow-md hover:bg-green-600 text-white'
-        >
+        <button type='submit'
+          className='col-span-2 bg-green-400 p-2 rounded-full shadow-md hover:bg-green-600 text-white'>
           Guardar Producto
         </button>
       </form>
