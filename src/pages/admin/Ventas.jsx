@@ -6,23 +6,25 @@ import 'react-toastify/dist/ReactToastify.css';
 const VentasBackend = [
   {
     id_venta: '101',
-    total_venta: 1000,
     id_producto: '201',
     cantidad_producto: 5,
+    precio_unitario: 1500,
+    total_venta: 7500,
     fecha_venta: '2021-10-02',
     cedula_cliente: '123456',
-    nombre_cliente: 'Nairo',
-    nombre_vendedor: 'Camilo'
+    nombre_cliente: 'Ferney Gonzáles',
+    nombre_vendedor: 'Julian Rodríguez'
   },
   {
     id_venta: '102',
-    total_venta: 2000,
     id_producto: '202',
     cantidad_producto: 3,
-    fecha_venta: '2021-10-01',
-    cedula_cliente: '24680',
-    nombre_cliente: 'Nairo Rojas',
-    nombre_vendedor: 'Camilo Grimaldos'
+    precio_unitario: 1000,
+    total_venta: 3000,
+    fecha_venta: '2021-10-03',
+    cedula_cliente: '7890123',
+    nombre_cliente: 'Jose Gómez',
+    nombre_vendedor: 'Camilo Rentería'
   }
  ];
 
@@ -56,7 +58,7 @@ const Ventas = () => {
           onClick={() => {
             setMostrarTabla(!mostrarTabla);
           }}
-          className={`text-white bg-${colorBoton}-500 p-5 rounded-full m-6 w-28 self-end`}
+          className={`text-white bg-${colorBoton}-500 p-5 rounded-md m-6 w-28 self-end`}
         >
           {textoBoton}
         </button>
@@ -86,9 +88,10 @@ const TablaVentas = ({ listaVentas }) => {
         <thead>
           <tr>
             <th>Id Venta</th>
-            <th>Total Ventas</th>
             <th>Id Producto</th>
             <th>Cantidad Producto</th>
+            <th>Precio Unitario</th>
+            <th>Total Venta</th>
             <th>Fecha Venta</th>
             <th>Cédula Cliente</th>
             <th>Nombre Cliente</th>
@@ -100,9 +103,10 @@ const TablaVentas = ({ listaVentas }) => {
             return (
               <tr>
                 <td>{Ventas.id_venta}</td>
-                <td>{Ventas.total_venta}</td>
                 <td>{Ventas.id_producto}</td>
                 <td>{Ventas.cantidad_producto}</td>
+                <td>{Ventas.precio_unitario}</td>
+                <td>{Ventas.total_venta}</td>
                 <td>{Ventas.fecha_venta}</td>
                 <td>{Ventas.cedula_cliente}</td>
                 <td>{Ventas.nombre_cliente}</td>
@@ -130,11 +134,8 @@ const FormularioCreacionVentas = ({ setMostrarTabla, listaVentas, setVentas }) =
 
     setMostrarTabla(true);
     setVentas([...listaVentas, nuevoVentas]);
-    // identificar el caso de éxito y mostrar un toast de éxito
     toast.success('Venta agregada con éxito');
-    // identificar el caso de error y mostrar un toast de error
-    // toast.error('Error creando un Ventas');
-  };
+    };
 
   return (
     <div className='flex flex-col items-center justify-center'>
@@ -152,41 +153,54 @@ const FormularioCreacionVentas = ({ setMostrarTabla, listaVentas, setVentas }) =
             required
             />
         </label>
-        <label className='flex flex-col' htmlFor='total_venta'>
-          Total Venta
-          <input
-            name='total_venta'
-            className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
-            type='number'
-            min={5000}
-            placeholder='1500'
-            required
-            />
-            </label>
+
         <label className='flex flex-col' htmlFor='id_producto'>
           Id Producto
-        <input
+          <input
             name='id_producto'
             className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
             type='number'
-            min={201}
-            max={299}
-            placeholder='201'
+            min={101}
+            max={199}
+            placeholder='101'
             required
-        />
+            />
         </label>
-        <label className='flex flex-col' htmlFor='cantidad_producto'>
+
+        <label className='flex flex-col' htmlFor='cantidad'>
           Cantidad Producto
-        <input
-            name='cantidad_producto'
+          <input
+            name='cantidad'
             className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
             type='number'
-            placeholder='5'
             min={1}
-            max={100}
+            placeholder='1'
             required
-        />
+            />
         </label>
+
+        <label className='flex flex-col' htmlFor='p_unidad'>
+          Precio Unidad
+          <input
+            name='p_unidad'
+            className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
+            type='number'
+            placeholder='1000'
+            required
+            />
+        </label>
+
+        <label className='flex flex-col' htmlFor='t_venta'>
+          Total Venta
+          <input
+            name='t_venta'
+            className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
+            type='number'
+            placeholder='5500'
+            required
+            />
+        </label>
+
         <label className='flex flex-col' htmlFor='fecha_venta'>
           Fecha Venta
         <input

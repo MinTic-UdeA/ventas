@@ -1,5 +1,3 @@
-
-
 const Error404 = () => {
   return(
       <div>
@@ -8,4 +6,4 @@ const Error404 = () => {
   )
 }
 
-export default Prueba;
+export default  Error404;
