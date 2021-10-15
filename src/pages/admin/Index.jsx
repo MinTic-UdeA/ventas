@@ -1,12 +1,13 @@
-import React from 'react'
+//import { useDarkMode } from 'context/darkMode';
+import React from 'react';
 
 const Index = () => {
-    return (
-            
-        <div className='flex h-full w-full bg-gray-150'>
-        Contenido
-        </div>
-    )
-}
+  //const { darkMode } = useDarkMode();
+  return (
+    <div className='flex flex-col h-full bg-gray-50 text-center justify-center'>
+      Contenido Gestion de Ventas
+    </div>
+  );
+};
 
-export default Index
+export default Index;

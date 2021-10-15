@@ -4,26 +4,33 @@
 @tailwind utilities;
 
 
-.table{
-    width: 100%;
-    margin: 12px;
+@tailwind utilities;
+
+.table-producto{
+  width: 100%;
 }
-.table td, 
-.table th {
-    padding: 8px;
-    border: 1px solid #ddd;
- }
- .table th{
-     background-color: #04aa46;
-     color: white;
-     padding-top: 12px;
-     padding-bottom: 12px;
-     text-align: left;
- }
- .table tr:nth-child(event){
-background-color: #f2f2f2;
- }
- .table tr:hover{
-     background-color: #ddd;
-     cursor: pointer;
- }
+
+.table-producto th,
+.table-producto td {
+  padding: 10px;
+  border: 1px solid lightgray;
+  text-align: center;
+}
+.thead-producto{
+  background-color: blue;
+  color: white;
+}
+
+/*.tbody-producto tr:nth-child(odd){
+  background-color:#D4E6F1;
+}*/
+
+.tbody-producto tr:hover{
+  background-color:#A9CCE3;  /* #A9CCE3 */
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/*.etiqueta{
+  display: inline-block;
+}*/
