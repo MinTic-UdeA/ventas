@@ -87,13 +87,13 @@ const TablaProductos = ({ listaProductos, setEjecutarConsulta }) => {
       />
       <h2 className='text-2xl font-extrabold text-gray-800'>Todos los productos</h2>
       <div className='hidden md:flex w-full'>
-        <table className='table'>
+        <table className='table '>
           <thead>
             <tr>
               <th>Id</th>
-              <th>Nombre del producto</th>
-              <th>Marca del producto</th>
-              <th>Modelo del producto</th>
+              <th>Descripción</th>
+              <th>Valor Uniario</th>
+              <th>Estado</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -114,9 +114,9 @@ const TablaProductos = ({ listaProductos, setEjecutarConsulta }) => {
         {productosFiltrados.map((el) => {
           return (
             <div className='bg-gray-400 m-2 shadow-xl flex flex-col p-2 rounded-xl'>
-              <span>{el.name}</span>
-              <span>{el.brand}</span>
-              <span>{el.model}</span>
+              <span>{el.description}</span>
+              <span>{el.unitValue}</span>
+              <span>{el.status}</span>
             </div>
           );
         })}
@@ -130,9 +130,9 @@ const FilaProducto = ({ producto, setEjecutarConsulta }) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [infoNuevoProducto, setInfoNuevoProducto] = useState({
     _id: producto._id,
-    name: producto.name,
-    brand: producto.brand,
-    model: producto.model,
+    name: producto.description,
+    brand: producto.unitValue,
+    model: producto.status
   });
 
   const actualizarProducto = async () => {
