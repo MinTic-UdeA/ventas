@@ -1,12 +1,7 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import axios from 'axios';
-import { nanoid } from 'nanoid';
-import { Dialog, Tooltip } from '@material-ui/core';
-import { obtenerProductos } from 'utils/api';
-import 'react-toastify/dist/ReactToastify.css';
+import React from 'react'
 
 const Productos = () => {
+
     const [mostrarTabla, setMostrarTabla] = useState(true);
     const [productos, setProductos] = useState([]);
     const [textoBoton, setTextoBoton] = useState('Nuevo Producto');

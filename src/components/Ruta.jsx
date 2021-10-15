@@ -5,7 +5,11 @@ import {Link} from 'react-router-dom';
 const Ruta = ({nombre, icono, ruta})=>{
     return(
         <Link to={ruta}>
+<<<<<<< HEAD
             <button className='p-1 my-2 bg-red-700 hover:bg-indigo-900 flex justify-items-center w-full text-white rounded-md'>
+=======
+            <button className='p-1 my-2 bg-indigo-900 hover:bg-indigo-500 flex justify-items-center w-full text-white rounded-md'>
+>>>>>>> rama-nairo-vistas
             <div class={`${icono} w-8`}></div> 
             {nombre}
             </button>
