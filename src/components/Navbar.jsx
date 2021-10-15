@@ -1,12 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Logo from 'media/logo.ico';
-<<<<<<< HEAD
-import Ruta from 'components/Ruta';
-=======
-//import Ruta from 'components/Ruta';
->>>>>>> rama-nairo-vistas
-
 
 const Navbar = () => {
   return (

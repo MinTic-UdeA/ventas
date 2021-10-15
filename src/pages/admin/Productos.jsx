@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { useEffect, useState, useRef } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import { nanoid } from 'nanoid';
+import { Dialog, Tooltip } from '@material-ui/core';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
+import { obtenerProductos } from 'utils/api';
 
 const Productos = () => {
-
     const [mostrarTabla, setMostrarTabla] = useState(true);
     const [productos, setProductos] = useState([]);
     const [textoBoton, setTextoBoton] = useState('Nuevo Producto');
@@ -25,7 +30,7 @@ const Productos = () => {
     useEffect(() => {
         if (mostrarTabla) {
             setTextoBoton('Nuevo Producto');
-            setColorBoton('red');
+            setColorBoton('blue');
         } else {
             setTextoBoton('Mostrar Productos');
             setColorBoton('green');
@@ -82,8 +87,8 @@ const TablaProductos = ({ listaProductos, setEjecutarConsulta }) => {
             />
             <h2 className='text-2xl font-extrabold text-gray-800'>Listado de Productos</h2>
             <div className='hidden md:flex w-full'>
-                <table className='table-producto'>
-                    <thead className='thead-producto'>
+                <table className='table'>
+                    <thead>
                         <tr>
                             <th>Id Producto</th>
                             <th>Descripci&oacute;n</th>
@@ -92,7 +97,7 @@ const TablaProductos = ({ listaProductos, setEjecutarConsulta }) => {
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody className='tbody-producto'>
+                    <tbody>
                         {productosFiltrados.map((Producto) => {
                             return (
                                 <FilaProducto key={nanoid()} valuesProducto={Producto} setEjecutarConsulta={setEjecutarConsulta} />

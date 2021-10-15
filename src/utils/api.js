@@ -12,3 +12,16 @@ export const obtenerProductos = async (setProductos, setEjecutarConsulta) => {
     });
   setEjecutarConsulta(false);
 };
+
+export const obtenerVentas = async (setVentas, setEjecutarConsulta) => {
+  const options = { method: 'GET', url: 'http://localhost:8000/Ventas' };
+  await axios
+    .request(options)
+    .then(function (response) {
+      setVentas(response.data);
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
+  setEjecutarConsulta(false);
+};

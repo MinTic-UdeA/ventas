@@ -4,9 +4,6 @@
 @tailwind utilities;
 
 
-<<<<<<< HEAD
-@tailwind utilities;
-
 .table-producto{
   width: 100%;
 }
@@ -22,7 +19,6 @@
   color: white;
 }
 
-=======
 /*Estas es el css estandar para las tablas*/
 .table {
   width: 100%;
@@ -69,7 +65,6 @@
   color: white;
 }
 
->>>>>>> rama-nairo-vistas
 /*.tbody-producto tr:nth-child(odd){
   background-color:#D4E6F1;
 }*/
