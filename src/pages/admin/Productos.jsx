@@ -30,7 +30,7 @@ const Productos = () => {
     useEffect(() => {
         if (mostrarTabla) {
             setTextoBoton('Nuevo Producto');
-            setColorBoton('blue');
+            setColorBoton('indigo');
         } else {
             setTextoBoton('Mostrar Productos');
             setColorBoton('green');
@@ -91,7 +91,7 @@ const TablaProductos = ({ listaProductos, setEjecutarConsulta }) => {
                     <thead>
                         <tr>
                             <th>Id Producto</th>
-                            <th>Descripci&oacute;n</th>
+                            <th>Nombre</th>
                             <th>Valor Unitario</th>
                             <th>Estado</th>
                             <th>Acciones</th>
@@ -101,6 +101,7 @@ const TablaProductos = ({ listaProductos, setEjecutarConsulta }) => {
                         {productosFiltrados.map((Producto) => {
                             return (
                                 <FilaProducto key={nanoid()} valuesProducto={Producto} setEjecutarConsulta={setEjecutarConsulta} />
+                                
                             );
                         })}
                     </tbody>
@@ -124,10 +125,11 @@ const TablaProductos = ({ listaProductos, setEjecutarConsulta }) => {
 };
 
 const FilaProducto = ({ valuesProducto, setEjecutarConsulta }) => {
+    console.log(valuesProducto)
     const [edit, setEdit] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
     const [infoNuevoProducto, setInfoNuevoProducto] = useState({
-        idProducto: valuesProducto.idProducto,
+        idProducto: valuesProducto.id,
         nombre: valuesProducto.nombre,
         precio: valuesProducto.precio,
         estado: valuesProducto.estado,
@@ -137,7 +139,7 @@ const FilaProducto = ({ valuesProducto, setEjecutarConsulta }) => {
         //enviar la info al backend
         const options = {
             method: 'PUT',
-            url: `http://localhost:8000/Productos/${valuesProducto.idProducto}`,
+            url: `http://localhost:8000/Productos/${valuesProducto.id}`,
             headers: { 'Content-Type': 'application/json' },
             data: { ...infoNuevoProducto },
         };
@@ -161,7 +163,7 @@ const FilaProducto = ({ valuesProducto, setEjecutarConsulta }) => {
     const eliminarProducto = async () => {
         const options = {
             method: 'DELETE',
-            url: `http://localhost:8000/Productos/${valuesProducto.idProducto}`,
+            url: `http://localhost:8000/Productos/${valuesProducto.id}`,
             headers: { 'Content-Type': 'application/json' }
         };
 
@@ -185,7 +187,7 @@ const FilaProducto = ({ valuesProducto, setEjecutarConsulta }) => {
         <tr>
             {edit ? (
                 <>
-                    <td>{infoNuevoProducto.idProducto}</td>
+                    <td>{infoNuevoProducto.id}</td>
                     <td>
                         <input
                             className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
@@ -217,11 +219,11 @@ const FilaProducto = ({ valuesProducto, setEjecutarConsulta }) => {
                 </>
             ) : (
                 <>
-                    <td>{valuesProducto.idProducto}</td>
+                    <td>{valuesProducto.id}</td>
                     <td>{valuesProducto.nombre}</td>
                     <td>{valuesProducto.precio}</td>
                     <td>{
-                        valuesProducto.estado === 1 ? ("Disponible") : ("No disponible")
+                        valuesProducto.estado === true ? ("Disponible") : ("No disponible")
                     }
                     </td>
                 </>
@@ -303,7 +305,7 @@ const FormularioCreacionProductos = ({ setMostrarTabla, listaProductos, setProdu
             url: 'http://localhost:8000/Productos',
             headers: { 'Content-Type': 'application/json' },
             data: {
-                idProducto: nuevoProducto.idProducto,
+                id: nuevoProducto.id,
                 nombre: nuevoProducto.nombre,
                 precio: nuevoProducto.precio,
                 estado: nuevoProducto.estado
@@ -330,18 +332,9 @@ const FormularioCreacionProductos = ({ setMostrarTabla, listaProductos, setProdu
         <div className='flex flex-col items-center justify-center'>
             <h2 className='text-2xl font-extrabold text-gray-800'>Nuevo Producto</h2>
             <form ref={form} onSubmit={submitForm} className='flex flex-col'>
-                <label className='flex flex-col' htmlFor='idProducto'>
-                    ID Producto
-                    <input
-                        name='idProducto'
-                        className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
-                        type='number'
-                        placeholder='0'
-                        required
-                    />
-                </label>
+                
                 <label className='flex flex-col' htmlFor='nombre'>
-                    Descripci&oacute;n
+                    Nombre
                     <input
                         name='nombre'
                         className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
@@ -368,7 +361,7 @@ const FormularioCreacionProductos = ({ setMostrarTabla, listaProductos, setProdu
                             <label htmlFor="disponible">Si</label>
                         </div>
                         <div className='flex flex-row items-center space-x-1.5'>
-                            <input type="radio" name="estado" id="noDisponible" value={2} />
+                            <input type="radio" name="estado" id="noDisponible" value={0} />
                             <label htmlFor="noDisponible">No</label>
                         </div>
                     </div>
