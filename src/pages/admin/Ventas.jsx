@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid';
 import { Dialog, Tooltip } from '@material-ui/core';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
-import { obtenerVentas } from 'utils/api';
+import { obtenerVentas, obtenerProducto, obtenerUsuario } from 'utils/api';
 
 const Ventas = () => {
     const [mostrarTabla, setMostrarTabla] = useState(true);
@@ -349,6 +349,22 @@ const FilaVenta = ({ valuesVenta, setEjecutarConsulta }) => {
 };
 
 const FormularioCreacionVentas = ({ setMostrarTabla, listaVentas, setVentas }) => {
+
+    const [cantidadProducto, setCantidadProducto] = useState(0);
+    const [idProductoConsultar, setIdProductoConsultar] = useState(1);
+    const [ProductoConsultado, setProductoConsultado] = useState({});
+
+    useEffect(() => {
+        obtenerProducto(idProductoConsultar, setProductoConsultado);
+    }, [idProductoConsultar]);
+
+    const [idEmpleadoConsultar, setIdEmpleadoConsultar] = useState(1);
+    const [empleadoConsultado, setEmpleadoConsultado] = useState({});
+
+    useEffect(() => {
+        obtenerUsuario(idEmpleadoConsultar, setEmpleadoConsultado);
+    }, [idEmpleadoConsultar]);
+
     const form = useRef(null);
 
     const submitForm = async (e) => {
@@ -365,10 +381,10 @@ const FormularioCreacionVentas = ({ setMostrarTabla, listaVentas, setVentas }) =
             url: 'http://localhost:8000/Ventas',
             headers: { 'Content-Type': 'application/json' },
             data: {
-                idVenta: NuevaVenta.idVenta,
+                //idVenta: NuevaVenta.idVenta,
                 idProducto: NuevaVenta.idProducto,
                 cantidad: NuevaVenta.cantidad,
-                valor: NuevaVenta.valor,
+                valor: NuevaVenta.precio,
                 total: NuevaVenta.total,
                 fecha: NuevaVenta.fecha,
                 cliente: NuevaVenta.cliente,
@@ -396,13 +412,14 @@ const FormularioCreacionVentas = ({ setMostrarTabla, listaVentas, setVentas }) =
         <div className='flex flex-col items-center justify-center'>
             <h2 className='text-2xl font-extrabold text-gray-800'>Nueva Venta</h2>
             <form ref={form} onSubmit={submitForm} className='flex flex-col'>
-                <label className='flex flex-col' htmlFor='idVenta'>
-                    ID Venta
+
+                <label className='flex flex-col' htmlFor='fecha'>
+                    Fecha
                     <input
-                        name='idVenta'
+                        name='fecha'
                         className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
-                        type='number'
-                        placeholder='0'
+                        type='date'
+                        //min={1/1/1990}
                         required
                     />
                 </label>
@@ -413,30 +430,45 @@ const FormularioCreacionVentas = ({ setMostrarTabla, listaVentas, setVentas }) =
                         name='idProducto'
                         className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
                         type='number'
+                        min={1}
                         placeholder='0'
                         required
+                        onInput= {(e) => setIdProductoConsultar(e.target.value)}
+                    />
+                </label>
+
+                <label className='flex flex-col' htmlFor='nameProducto'>
+                    Producto
+                    <input
+                        name='nameProducto'
+                        className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
+                        type='text'
+                        placeholder='Producto'
+                        value={ProductoConsultado.nombre}
                     />
                 </label>
 
                 <label className='flex flex-col' htmlFor='cantidad'>
-                    Cantidad Producto
+                    Cantidad
                     <input
                         name='cantidad'
                         className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
                         type='number'
                         placeholder='0'
                         required
+                        value={cantidadProducto} onInput={e => setCantidadProducto(e.target.value)}
                     />
                 </label>
 
-                <label className='flex flex-col' htmlFor='valor'>
-                    Valor Unitario
+                <label className='flex flex-col' htmlFor='precio'>
+                    Precio Unitario
                     <input
-                        name='valor'
+                        name='precio'
                         className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
-                        type='number'
+                        type='text'
                         placeholder='0'
                         required
+                        value={ProductoConsultado.precio}
                     />
                 </label>
 
@@ -445,29 +477,19 @@ const FormularioCreacionVentas = ({ setMostrarTabla, listaVentas, setVentas }) =
                     <input
                         name='total'
                         className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
-                        type='number'
+                        type='text'
                         placeholder='0'
-                        required
+                        value={ ProductoConsultado.precio === undefined? 0 : cantidadProducto === undefined? 0 : ProductoConsultado.precio * cantidadProducto }
                     />
                 </label>
 
-                <label className='flex flex-col' htmlFor='fecha'>
-                    Fecha
+                <label className='flex flex-col' htmlFor='idCliente'>
+                    ID Cliente
                     <input
-                        name='fecha'
-                        className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
-                        type='date'
-                        placeholder='Limon'
-                        required
-                    />
-                </label>
-                <label className='flex flex-col' htmlFor='cedula'>
-                    Cédula Cliente
-                    <input
-                        name='cedula'
+                        name='idCliente'
                         className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
                         type='text'
-                        placeholder='79123456'
+                        placeholder='12345678'
                         required
                     />
                 </label>
@@ -483,16 +505,30 @@ const FormularioCreacionVentas = ({ setMostrarTabla, listaVentas, setVentas }) =
                     />
                 </label>
 
+                <label className='flex flex-col' htmlFor='cedula'>
+                    ID Vendedor
+                    <input
+                        name='idVendedor'
+                        className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
+                        type='number'
+                        placeholder='12345678'
+                        required
+                        onInput= {(e) => setIdEmpleadoConsultar(e.target.value)}
+                    />
+                </label>
+
                 <label className='flex flex-col' htmlFor='vendedor'>
-                    Cliente
+                    Vendedor
                     <input
                         name='vendedor'
                         className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
                         type='text'
-                        placeholder='Pedro Silva'
+                        placeholder='Vendedor'
                         required
+                        value={empleadoConsultado.nombre}
                     />
                 </label>
+
                 <button type='submit'
                     className='col-span-2 bg-green-400 p-2 rounded-full shadow-md hover:bg-green-600 text-white'>
                     Guardar Venta

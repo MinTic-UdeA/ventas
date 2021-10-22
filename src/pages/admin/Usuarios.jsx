@@ -227,8 +227,7 @@ const FilaUsuario = ({ valuesUsuario, setEjecutarConsulta }) => {
                             className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
                             type='text'
                             value={infoNuevoUsuario.email}
-                            onChange={(e) => setInfoNuevoUsuario({ ...infoNuevoUsuario, email: e.
-                            target.value })}
+                            onChange={(e) => setInfoNuevoUsuario({ ...infoNuevoUsuario, email: e.target.value })}
                         />
                     </td>
                     <td>
