@@ -90,12 +90,12 @@ const TablaVentas = ({ listaVentas, setEjecutarConsulta }) => {
                 <table className='table'>
                     <thead>
                         <tr>
+                            <th>Fecha Venta</th>
                             <th>Id Venta</th>
                             <th>Id Producto</th>
                             <th>Cantidad Producto</th>
                             <th>Precio Unitario</th>
                             <th>Total Venta</th>
-                            <th>Fecha Venta</th>
                             <th>Cédula Cliente</th>
                             <th>Nombre Cliente</th>
                             <th>Nombre Vendedor</th>
@@ -284,6 +284,7 @@ const FilaVenta = ({ valuesVenta, setEjecutarConsulta }) => {
                     <td>{valuesVenta.valor}</td>
                     <td>{valuesVenta.total}</td>
                     <td>{valuesVenta.fecha}</td>
+                    <td>{valuesVenta.cliente}</td>
                     <td>{valuesVenta.cliente}</td>
                     <td>{valuesVenta.vendedor}</td>
                 </>
