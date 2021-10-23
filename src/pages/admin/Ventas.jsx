@@ -92,13 +92,15 @@ const TablaVentas = ({ listaVentas, setEjecutarConsulta }) => {
                         <tr>
                             <th>Fecha Venta</th>
                             <th>Id Venta</th>
+                            {//<th>Cédula Cliente</th>
+                            //<th>Cliente</th>
+                            }
                             <th>Id Producto</th>
-                            <th>Cantidad Producto</th>
+                            <th>Cantidad</th>
                             <th>Precio Unitario</th>
                             <th>Total Venta</th>
-                            <th>Cédula Cliente</th>
-                            <th>Nombre Cliente</th>
-                            <th>Nombre Vendedor</th>
+                            <th>Vendedor</th>
+                            <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -129,22 +131,22 @@ const FilaVenta = ({ valuesVenta, setEjecutarConsulta }) => {
     const [edit, setEdit] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
     const [infoNuevaVenta, setInfoNuevaVenta] = useState({
-        idVenta: valuesVenta.idVenta,
-        idProducto: valuesVenta.idProducto,
-        cantidad: valuesVenta.cantidad,
-        precio: valuesVenta.precio,
-        total: valuesVenta.total,
+        id: valuesVenta.id,
         fecha: valuesVenta.fecha,
-        cedula: valuesVenta.cedula,
-        cliente: valuesVenta.cliente,
-        vendedor: valuesVenta.vendedor,
+        cantidad: valuesVenta.cantidad,
+        total: valuesVenta.total,
+        producto_id: valuesVenta.producto_id,
+        usuario_id: valuesVenta.usuario_id,
+        precio: valuesVenta.ventaproducto.precio,
+        estado: valuesVenta.estado,
+        
     });
 
     const actualizarVenta = async () => {
         //enviar la info al backend
         const options = {
             method: 'PUT',
-            url: `http://localhost:8000/Ventas/${valuesVenta.idVenta}`,
+            url: `http://localhost:8000/Ventas/${valuesVenta.id}`,
             headers: { 'Content-Type': 'application/json' },
             data: { ...infoNuevaVenta },
         };
@@ -168,7 +170,7 @@ const FilaVenta = ({ valuesVenta, setEjecutarConsulta }) => {
     const eliminarVenta = async () => {
         const options = {
             method: 'DELETE',
-            url: `http://localhost:8000/Ventas/${valuesVenta.idVenta}`,
+            url: `http://localhost:8000/Ventas/${valuesVenta.id}`,
             headers: { 'Content-Type': 'application/json' }
         };
 
@@ -192,21 +194,31 @@ const FilaVenta = ({ valuesVenta, setEjecutarConsulta }) => {
         <tr>
             {edit ? (
                 <>
-                    <td>{infoNuevaVenta.idVenta}</td>
+                    <td>
+                        <input
+                            className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
+                            type='date'
+                            value={infoNuevaVenta.fecha}
+                            onChange={(e) =>
+                                setInfoNuevaVenta({ ...infoNuevaVenta, fecha: e.target.value })
+                            }
+                        />
+                    </td>
+                    {/**<td>{infoNuevaVenta.id}</td>*/}
                     <td>
                         <input
                             className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
                             type='number'
-                            value={infoNuevaVenta.idVenta}
-                            onChange={(e) => setInfoNuevaVenta({ ...infoNuevaVenta, idVenta: e.target.value })}
+                            value={infoNuevaVenta.id}
+                            onChange={(e) => setInfoNuevaVenta({ ...infoNuevaVenta, id: e.target.value })}
                         />
                     </td>
                     <td>
                         <input
                             className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
                             type='number'
-                            value={infoNuevaVenta.idProducto}
-                            onChange={(e) => setInfoNuevaVenta({ ...infoNuevaVenta, idProducto: e.target.value })}
+                            value={infoNuevaVenta.producto_id}
+                            onChange={(e) => setInfoNuevaVenta({ ...infoNuevaVenta, producto_id: e.target.value })}
                         />
                     </td>
 
@@ -219,14 +231,7 @@ const FilaVenta = ({ valuesVenta, setEjecutarConsulta }) => {
                         />
                     </td>
 
-                    <td>
-                        <input
-                            className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
-                            type='number'
-                            value={infoNuevaVenta.precio}
-                            onChange={(e) => setInfoNuevaVenta({ ...infoNuevaVenta, precio: e.target.value })}
-                        />
-                    </td>
+                    <td> {infoNuevaVenta.precio} </td>
 
                     <td>
                         <input
@@ -237,16 +242,8 @@ const FilaVenta = ({ valuesVenta, setEjecutarConsulta }) => {
                         />
                     </td>
 
-                    <td>
-                        <input
-                            className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
-                            type='date'
-                            value={infoNuevaVenta.fecha}
-                            onChange={(e) =>
-                                setInfoNuevaVenta({ ...infoNuevaVenta, fecha: e.target.value })
-                            }
-                        />
-                    </td>
+
+                    {/** 
                     <td>
                         <input
                             className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
@@ -266,27 +263,38 @@ const FilaVenta = ({ valuesVenta, setEjecutarConsulta }) => {
                             onChange={(e) => setInfoNuevaVenta({ ...infoNuevaVenta, cliente: e.target.value })}
                         />
                     </td>
+                    */}
+                    <td>
+                        <input
+                            className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
+                            type='text'
+                            value={infoNuevaVenta.usuario_id}
+                            onChange={(e) => setInfoNuevaVenta({ ...infoNuevaVenta, usuario_id: e.target.value })}
+                        />
+                    </td>
 
                     <td>
                         <input
                             className='bg-gray-50 border border-gray-600 p-2 rounded-lg m-2'
                             type='text'
-                            value={infoNuevaVenta.vendedor}
-                            onChange={(e) => setInfoNuevaVenta({ ...infoNuevaVenta, vendedor: e.target.value })}
+                            value={infoNuevaVenta.estado}
+                            onChange={(e) => setInfoNuevaVenta({ ...infoNuevaVenta, estado: e.target.value })}
                         />
-                    </td>
+                     </td>
                 </>
             ) : (
                 <>
-                    <td>{valuesVenta.idVenta}</td>
-                    <td>{valuesVenta.idProducto}</td>
-                    <td>{valuesVenta.cantidad}</td>
-                    <td>{valuesVenta.valor}</td>
-                    <td>{valuesVenta.total}</td>
                     <td>{valuesVenta.fecha}</td>
-                    <td>{valuesVenta.cliente}</td>
-                    <td>{valuesVenta.cliente}</td>
-                    <td>{valuesVenta.vendedor}</td>
+                    <td>{valuesVenta.id}</td>
+                    { //<td>{valuesVenta.idCliente}</td>
+                    //<td>{valuesVenta.cliente}</td>
+                    }
+                    <td>{valuesVenta.producto_id}</td>
+                    <td>{valuesVenta.cantidad}</td>
+                    <td>{valuesVenta.ventaproducto.precio}</td>
+                    <td>{valuesVenta.total}</td>
+                    <td>{valuesVenta.ventausuario.nombre}</td>
+                    <td>{valuesVenta.estado}</td>
                 </>
             )}
             <td>
@@ -382,14 +390,12 @@ const FormularioCreacionVentas = ({ setMostrarTabla, listaVentas, setVentas }) =
             url: 'http://localhost:8000/Ventas',
             headers: { 'Content-Type': 'application/json' },
             data: {
-                //idVenta: NuevaVenta.idVenta,
-                idProducto: NuevaVenta.idProducto,
-                cantidad: NuevaVenta.cantidad,
-                valor: NuevaVenta.precio,
-                total: NuevaVenta.total,
                 fecha: NuevaVenta.fecha,
-                cliente: NuevaVenta.cliente,
-                vendedor: NuevaVenta.vendedor
+                cantidad: NuevaVenta.cantidad,
+                total: NuevaVenta.total,
+                estado: 1, //NuevaVenta.estado,
+                producto_id: NuevaVenta.idProducto,
+                usuario_id: NuevaVenta.idVendedor
             },
         };
 
@@ -506,7 +512,7 @@ const FormularioCreacionVentas = ({ setMostrarTabla, listaVentas, setVentas }) =
                     />
                 </label>
 
-                <label className='flex flex-col' htmlFor='cedula'>
+                <label className='flex flex-col' htmlFor='idVendedor'>
                     ID Vendedor
                     <input
                         name='idVendedor'
