@@ -19,7 +19,7 @@ function App() {
     <Auth0Provider
       domain="villa-it.us.auth0.com"
       clientId="eRhh7sis7sJldqdl1P9lIX9LFya48UHt"
-      redirectUri={window.location.origin}
+      redirectUri="https://app-antsventas.herokuapp.com/admin"
       audience="api-auth-udea"
     >
       <div className="App">
