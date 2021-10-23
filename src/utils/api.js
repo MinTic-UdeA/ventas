@@ -10,7 +10,8 @@ export const obtenerProductos = async (setProductos, setEjecutarConsulta) => {
     url: 'https://apiants.herokuapp.com/Productos/',
     headers: {
       Authorization: getToken(),
-    },
+      'Content-Type': 'application/json'
+    }
   }
   await axios
     .request(options)
@@ -27,7 +28,7 @@ export const obtenerProducto = async (idProductoConsultar, setProductoConsultado
   const options = {
     method: 'GET',
     url: `https://apiants.herokuapp.com/Productos/${idProductoConsultar}`,
-    headers: { 'Content-Type': 'application/json' }
+    headers: { Authorization: getToken(), 'Content-Type': 'application/json' }
   }
   await axios
     .request(options)
@@ -45,7 +46,8 @@ export const obtenerVentas = async (setVentas, setEjecutarConsulta) => {
     url: 'https://apiants.herokuapp.com/Ventas/',
     headers: {
       Authorization: getToken(),
-    },
+      'Content-Type': 'application/json'
+    }
   }
   await axios
     .request(options)
@@ -64,7 +66,8 @@ export const obtenerUsuarios = async (setUsuarios, setEjecutarConsulta) => {
     url: 'https://apiants.herokuapp.com/Usuarios/',
     headers: {
       Authorization: getToken(),
-    },
+      'Content-Type': 'application/json'
+    }
   }
   await axios
     .request(options)
@@ -81,7 +84,7 @@ export const obtenerUsuario= async (idEmpleadoConsultar, setEmpleadoConsultado) 
   const options = {
     method: 'GET',
     url: `https://apiants.herokuapp.com/Usuarios/${idEmpleadoConsultar}`,
-    headers: { 'Content-Type': 'application/json' }
+    headers: { Authorization: getToken(), 'Content-Type': 'application/json' }
   }
   await axios
     .request(options)
