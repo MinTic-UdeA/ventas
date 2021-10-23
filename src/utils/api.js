@@ -1,7 +1,17 @@
 import axios from 'axios'
 
+const getToken = () => {
+  return `Bearer ${localStorage.getItem('token')}`
+}
+
 export const obtenerProductos = async (setProductos, setEjecutarConsulta) => {
-  const options = { method: 'GET', url: 'https://apiants.herokuapp.com/Productos' }
+  const options = {
+    method: 'GET',
+    url: 'https://apiants.herokuapp.com/Productos',
+    headers: {
+      Authorization: getToken(),
+    },
+  }
   await axios
     .request(options)
     .then(function (response) {
@@ -30,7 +40,13 @@ export const obtenerProducto = async (idProductoConsultar, setProductoConsultado
 }
 
 export const obtenerVentas = async (setVentas, setEjecutarConsulta) => {
-  const options = { method: 'GET', url: 'https://apiants.herokuapp.com/Ventas' }
+  const options = {
+    method: 'GET',
+    url: 'https://apiants.herokuapp.com/Ventas',
+    headers: {
+      Authorization: getToken(),
+    },
+  }
   await axios
     .request(options)
     .then(function (response) {
@@ -43,7 +59,13 @@ export const obtenerVentas = async (setVentas, setEjecutarConsulta) => {
 }
 
 export const obtenerUsuarios = async (setUsuarios, setEjecutarConsulta) => {
-  const options = { method: 'GET', url: 'https://apiants.herokuapp.com/Usuarios' }
+  const options = {
+    method: 'GET',
+    url: 'https://apiants.herokuapp.com/Usuarios',
+    headers: {
+      Authorization: getToken(),
+    },
+  }
   await axios
     .request(options)
     .then(function (response) {
