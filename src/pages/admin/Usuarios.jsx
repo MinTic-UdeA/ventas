@@ -6,6 +6,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { obtenerUsuarios } from 'utils/api';
 
+const getToken = () => {
+  return `Bearer ${localStorage.getItem('token')}`
+}
+
 const Usuarios = () => {
   const [mostrarTabla, setMostrarTabla] = useState(true);
   const [usuarios, setUsuarios] = useState([]);
@@ -150,7 +154,7 @@ const FilaUsuario = ({ valuesUsuario, setEjecutarConsulta }) => {
         const options = {
             method: 'PUT',
             url: `https://apiants.herokuapp.com/Usuarios/${valuesUsuario.id}`,
-            headers: { 'Content-Type': 'application/json' },
+            headers: { Authorization: getToken(), 'Content-Type': 'application/json' },
             data: { ...infoNuevoUsuario },
         };
 
@@ -174,7 +178,7 @@ const FilaUsuario = ({ valuesUsuario, setEjecutarConsulta }) => {
         const options = {
             method: 'DELETE',
             url: `https://apiants.herokuapp.com/Usuarios/${valuesUsuario.id}`,
-            headers: { 'Content-Type': 'application/json' }
+            headers: { Authorization: getToken(), 'Content-Type': 'application/json' }
         };
 
         await axios
@@ -345,7 +349,7 @@ const FormularioCreacionUsuarios = ({ setMostrarTabla, listaUsuarios, setUsuario
     const options = {
             method: 'POST',
             url: 'https://apiants.herokuapp.com/Usuarios',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { Authorization: getToken(), 'Content-Type': 'application/json' },
             data: {
                 id: nuevoUsuario.id,
                 nombre: nuevoUsuario.nombre,

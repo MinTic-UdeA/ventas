@@ -6,6 +6,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { obtenerVentas, obtenerProducto, obtenerUsuario } from 'utils/api';
 
+const getToken = () => {
+    return `Bearer ${localStorage.getItem('token')}`
+}
+
 const Ventas = () => {
     const [mostrarTabla, setMostrarTabla] = useState(true);
     const [ventas, setVentas] = useState([]);
@@ -147,7 +151,7 @@ const FilaVenta = ({ valuesVenta, setEjecutarConsulta }) => {
         const options = {
             method: 'PUT',
             url: `https://apiants.herokuapp.com/Ventas/${valuesVenta.id}`,
-            headers: { 'Content-Type': 'application/json' },
+            headers: { Authorization: getToken(), 'Content-Type': 'application/json' },
             data: { ...infoNuevaVenta },
         };
 
@@ -171,7 +175,7 @@ const FilaVenta = ({ valuesVenta, setEjecutarConsulta }) => {
         const options = {
             method: 'DELETE',
             url: `https://apiants.herokuapp.com/Ventas/${valuesVenta.id}`,
-            headers: { 'Content-Type': 'application/json' }
+            headers: { Authorization: getToken(), 'Content-Type': 'application/json' }
         };
 
         await axios
@@ -388,7 +392,7 @@ const FormularioCreacionVentas = ({ setMostrarTabla, listaVentas, setVentas }) =
         const options = {
             method: 'POST',
             url: 'https://apiants.herokuapp.com/Ventas',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { Authorization: getToken(), 'Content-Type': 'application/json' },
             data: {
                 fecha: NuevaVenta.fecha,
                 cantidad: NuevaVenta.cantidad,
