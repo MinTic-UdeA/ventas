@@ -20,6 +20,7 @@ function App() {
       domain="villa-it.us.auth0.com"
       clientId="eRhh7sis7sJldqdl1P9lIX9LFya48UHt"
       redirectUri={window.location.origin}
+      audience="api-auth-udea"
     >
       <div className="App">
         <Router>
