@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const obtenerProductos = async (setProductos, setEjecutarConsulta) => {
-  const options = { method: 'GET', url: 'http://localhost:8000/Productos' }
+  const options = { method: 'GET', url: 'https://apiants.herokuapp.com/Productos' }
   await axios
     .request(options)
     .then(function (response) {
@@ -16,7 +16,7 @@ export const obtenerProductos = async (setProductos, setEjecutarConsulta) => {
 export const obtenerProducto = async (idProductoConsultar, setProductoConsultado) => {
   const options = {
     method: 'GET',
-    url: `http://localhost:8000/Productos/${idProductoConsultar}`,
+    url: `https://apiants.herokuapp.com/Productos/${idProductoConsultar}`,
     headers: { 'Content-Type': 'application/json' }
   }
   await axios
@@ -30,7 +30,7 @@ export const obtenerProducto = async (idProductoConsultar, setProductoConsultado
 }
 
 export const obtenerVentas = async (setVentas, setEjecutarConsulta) => {
-  const options = { method: 'GET', url: 'http://localhost:8000/Ventas' }
+  const options = { method: 'GET', url: 'https://apiants.herokuapp.com/Ventas' }
   await axios
     .request(options)
     .then(function (response) {
@@ -43,7 +43,7 @@ export const obtenerVentas = async (setVentas, setEjecutarConsulta) => {
 }
 
 export const obtenerUsuarios = async (setUsuarios, setEjecutarConsulta) => {
-  const options = { method: 'GET', url: 'http://localhost:8000/Usuarios' }
+  const options = { method: 'GET', url: 'https://apiants.herokuapp.com/Usuarios' }
   await axios
     .request(options)
     .then(function (response) {
@@ -58,7 +58,7 @@ export const obtenerUsuarios = async (setUsuarios, setEjecutarConsulta) => {
 export const obtenerUsuario= async (idEmpleadoConsultar, setEmpleadoConsultado) => {
   const options = {
     method: 'GET',
-    url: `http://localhost:8000/Usuarios/${idEmpleadoConsultar}`,
+    url: `https://apiants.herokuapp.com/Usuarios/${idEmpleadoConsultar}`,
     headers: { 'Content-Type': 'application/json' }
   }
   await axios

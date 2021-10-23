@@ -149,7 +149,7 @@ const FilaUsuario = ({ valuesUsuario, setEjecutarConsulta }) => {
         //enviar la info al backend
         const options = {
             method: 'PUT',
-            url: `http://localhost:8000/Usuarios/${valuesUsuario.id}`,
+            url: `https://apiants.herokuapp.com/Usuarios/${valuesUsuario.id}`,
             headers: { 'Content-Type': 'application/json' },
             data: { ...infoNuevoUsuario },
         };
@@ -173,7 +173,7 @@ const FilaUsuario = ({ valuesUsuario, setEjecutarConsulta }) => {
     const eliminarUsuario = async () => {
         const options = {
             method: 'DELETE',
-            url: `http://localhost:8000/Usuarios/${valuesUsuario.id}`,
+            url: `https://apiants.herokuapp.com/Usuarios/${valuesUsuario.id}`,
             headers: { 'Content-Type': 'application/json' }
         };
 
@@ -344,7 +344,7 @@ const FormularioCreacionUsuarios = ({ setMostrarTabla, listaUsuarios, setUsuario
 
     const options = {
             method: 'POST',
-            url: 'http://localhost:8000/Usuarios',
+            url: 'https://apiants.herokuapp.com/Usuarios',
             headers: { 'Content-Type': 'application/json' },
             data: {
                 id: nuevoUsuario.id,

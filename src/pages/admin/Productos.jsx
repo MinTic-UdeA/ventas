@@ -139,7 +139,7 @@ const FilaProducto = ({ valuesProducto, setEjecutarConsulta }) => {
         //enviar la info al backend
         const options = {
             method: 'PUT',
-            url: `http://localhost:8000/Productos/${valuesProducto.id}`,
+            url: `https://apiants.herokuapp.com/Productos/${valuesProducto.id}`,
             headers: { 'Content-Type': 'application/json' },
             data: { ...infoNuevoProducto },
         };
@@ -163,7 +163,7 @@ const FilaProducto = ({ valuesProducto, setEjecutarConsulta }) => {
     const eliminarProducto = async () => {
         const options = {
             method: 'DELETE',
-            url: `http://localhost:8000/Productos/${valuesProducto.id}`,
+            url: `https://apiants.herokuapp.com/Productos/${valuesProducto.id}`,
             headers: { 'Content-Type': 'application/json' }
         };
 
@@ -302,7 +302,7 @@ const FormularioCreacionProductos = ({ setMostrarTabla, listaProductos, setProdu
 
         const options = {
             method: 'POST',
-            url: 'http://localhost:8000/Productos',
+            url: 'https://apiants.herokuapp.com/Productos',
             headers: { 'Content-Type': 'application/json' },
             data: {
                 id: nuevoProducto.id,

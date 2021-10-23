@@ -146,7 +146,7 @@ const FilaVenta = ({ valuesVenta, setEjecutarConsulta }) => {
         //enviar la info al backend
         const options = {
             method: 'PUT',
-            url: `http://localhost:8000/Ventas/${valuesVenta.id}`,
+            url: `https://apiants.herokuapp.com/Ventas/${valuesVenta.id}`,
             headers: { 'Content-Type': 'application/json' },
             data: { ...infoNuevaVenta },
         };
@@ -170,7 +170,7 @@ const FilaVenta = ({ valuesVenta, setEjecutarConsulta }) => {
     const eliminarVenta = async () => {
         const options = {
             method: 'DELETE',
-            url: `http://localhost:8000/Ventas/${valuesVenta.id}`,
+            url: `https://apiants.herokuapp.com/Ventas/${valuesVenta.id}`,
             headers: { 'Content-Type': 'application/json' }
         };
 
@@ -387,7 +387,7 @@ const FormularioCreacionVentas = ({ setMostrarTabla, listaVentas, setVentas }) =
 
         const options = {
             method: 'POST',
-            url: 'http://localhost:8000/Ventas',
+            url: 'https://apiants.herokuapp.com/Ventas',
             headers: { 'Content-Type': 'application/json' },
             data: {
                 fecha: NuevaVenta.fecha,
