@@ -46,7 +46,6 @@ const Ventas = () => {
                 <h2 className='text-3xl font-extrabold text-gray-900'>
                     Administración de Ventas
                 </h2>
-                <button>Prueba</button>
                 <button
                     onClick={() => {
                         setMostrarTabla(!mostrarTabla);
