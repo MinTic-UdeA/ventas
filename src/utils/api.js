@@ -7,7 +7,7 @@ const getToken = () => {
 export const obtenerProductos = async (setProductos, setEjecutarConsulta) => {
   const options = {
     method: 'GET',
-    url: 'https://apiants.herokuapp.com/Productos',
+    url: 'https://apiants.herokuapp.com/Productos/',
     headers: {
       Authorization: getToken(),
     },
@@ -42,7 +42,7 @@ export const obtenerProducto = async (idProductoConsultar, setProductoConsultado
 export const obtenerVentas = async (setVentas, setEjecutarConsulta) => {
   const options = {
     method: 'GET',
-    url: 'https://apiants.herokuapp.com/Ventas',
+    url: 'https://apiants.herokuapp.com/Ventas/',
     headers: {
       Authorization: getToken(),
     },
@@ -61,7 +61,7 @@ export const obtenerVentas = async (setVentas, setEjecutarConsulta) => {
 export const obtenerUsuarios = async (setUsuarios, setEjecutarConsulta) => {
   const options = {
     method: 'GET',
-    url: 'https://apiants.herokuapp.com/Usuarios',
+    url: 'https://apiants.herokuapp.com/Usuarios/',
     headers: {
       Authorization: getToken(),
     },

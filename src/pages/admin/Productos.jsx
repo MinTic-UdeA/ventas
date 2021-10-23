@@ -30,7 +30,7 @@ const Productos = () => {
     useEffect(() => {
         if (mostrarTabla) {
             setTextoBoton('Nuevo Producto');
-            setColorBoton('indigo');
+            setColorBoton('blue');
         } else {
             setTextoBoton('Mostrar Productos');
             setColorBoton('green');

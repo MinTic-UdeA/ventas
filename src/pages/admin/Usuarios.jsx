@@ -30,7 +30,7 @@ const Usuarios = () => {
   useEffect(() => {
     if (mostrarTabla) {
       setTextoBoton('Nuevo Usuario');
-      setColorBoton('indigo');
+      setColorBoton('blue');
     } else {
       setTextoBoton('Mostrar Usuarios');
       setColorBoton('green');
@@ -265,7 +265,7 @@ const FilaUsuario = ({ valuesUsuario, setEjecutarConsulta }) => {
                     <td>{valuesUsuario.usuario}</td>
                     <td>{valuesUsuario.rol}</td>
                     <td>{
-                        valuesUsuario.estado === true ? ("Habilitado") : ("Deshabilitado")
+                        valuesUsuario.estado? ("Habilitado") : ("Deshabilitado")
                     }
                     </td>
                 </>
@@ -428,10 +428,8 @@ const FormularioCreacionUsuarios = ({ setMostrarTabla, listaUsuarios, setUsuario
             <option disabled value={0}>
               Seleccione una opción
             </option>
-            <option>CC</option>
-            <option>TI</option>
-            <option>Pasaporte</option>
-            <option>CE</option>
+            <option>Deshabilitado</option>
+            <option>Habilitado</option>
             </select>
         </label>
        
